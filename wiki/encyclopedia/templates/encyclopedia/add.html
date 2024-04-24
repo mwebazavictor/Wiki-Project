@@ -4,6 +4,9 @@
 {% endblock %}
 {% block body %}
 <form>
+    <p style="text-align: right;"><input type="submit" value="Save Entry"></p>
     {{ form }}
+   <p><label for="entry_data">Using Markdown, Enter information about the entry here</label></p> 
+   <p> <textarea id="entry_data" name="new_entry_info"></textarea> </p>
 </form>
 {% endblock %}

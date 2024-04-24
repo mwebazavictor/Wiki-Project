@@ -4,7 +4,7 @@ from django.shortcuts import render
 from . import util
 
 class New_entry(forms.Form):
-    form = forms.CharField()
+    form = forms.CharField(label="Title")
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -15,9 +15,7 @@ def entry(request, title):
 
 def search(request):
     query = request.GET.get('q')
-    search = util.get_entry(title=query)
-    if search is not None:
-        return entry(request, title=query)
+    entry(request, title=query)
 
 def new_entry(request):
-    return render(request, "/encyclopedia/add.html")
+    return render(request, "encyclopedia/add.html", {"form":New_entry})
