@@ -2,7 +2,6 @@ import re
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from . import views
 
 
 def list_entries():
@@ -22,7 +21,7 @@ def save_entry(title, content):
     """
     filename = f"entries/{title}.md"
     if default_storage.exists(filename):
-        views.error_message()
+        default_storage.delete(filename)
     default_storage.save(filename, ContentFile(content))
 
 

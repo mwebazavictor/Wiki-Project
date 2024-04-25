@@ -1,10 +1,14 @@
 {% extends "encyclopedia/layout.html" %}
 
-{% if title is not "add" %}
-    {% block title %}
-        {{ title }}
-    {% endblock %}
-    {% block body %}
-        {{ entry }}
-    {% endblock %}
-{% endif %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    <p style="text-align: center;">
+        <a href="{% url 'edit' %}">
+            Edit this entry
+        </a>
+    </p>
+    {{ entry }}
+{% endblock %}

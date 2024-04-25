@@ -4,8 +4,11 @@ from django.shortcuts import render
 from . import util
 
 class New_entry(forms.Form):
-    title = forms.CharField(label="Title")
-    content = forms.CharField(label="Using Markdown, Enter information about the entry here", widget=forms.Textarea)
+    title = forms.CharField()
+    content = forms.CharField(widget=forms.Textarea)
+
+class Edit_entry(forms.Form):
+    content = forms.CharField(widget=forms.Textarea)
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -18,18 +21,27 @@ def search(request):
     query = request.GET.get('q')
     entry(request, title=query)
 
+def error_message(request, error):
+    return render(request, "encyclopedia/error.html",{"error_message":error})
+
+def edit_page(request):
+    title = request.path
+    form = Edit_entry(initial={'content':util.get_entry(f"{title}")})
+    return render(request, "encyclopedia/edit.html", {"form":form})
+
 def new_entry(request):
     form = New_entry()
     if request.method == "POST":
-        form =New_entry(request.POST)
+        form = New_entry(request.POST)
         if form.is_valid():
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            util.save_entry(title,content)
-            return entry(request, title)
+            if util.get_entry(title) is not None:
+                return error_message(request, f"An entry with the title '{title}' already exists.")
+            else:
+                util.save_entry(title,content)
+                return entry(request, title)
     return render(request, "encyclopedia/add.html", {"form": form})
 
 
 
-def error_message(request):
-    return render(request, "encyclopedia/error.html")
