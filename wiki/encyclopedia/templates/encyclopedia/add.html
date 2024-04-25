@@ -6,8 +6,12 @@
 <form action="{% url 'add' %}" method="post">
     {% csrf_token %}
     <p style="text-align: right;"><input type="submit" value="Save Entry"></p>
-    {{ title }}
-   <p><label for="entry_data">Using Markdown, Enter information about the entry here</label></p> 
-   <p> <textarea id="entry_data" name="content"></textarea> </p>
+    <br> <label for="{{ form.title.id_for_label }}">Title:</label><br>
+    {{ form.title }}
+
+   <p>
+        <br> <label for="{{ form.content.id_for_label }}">Using Markdown, Enter information about the entry here</label><br>
+        {{ form.content }}
+    </p>
 </form>
 {% endblock %}

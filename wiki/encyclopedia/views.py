@@ -5,6 +5,7 @@ from . import util
 
 class New_entry(forms.Form):
     title = forms.CharField(label="Title")
+    content = forms.CharField(label="Using Markdown, Enter information about the entry here", widget=forms.Textarea)
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -18,11 +19,15 @@ def search(request):
     entry(request, title=query)
 
 def new_entry(request):
+    form = New_entry()
     if request.method == "POST":
-        title = request.POST['title']
-        content= request.POST['content']
-        
-    return render(request, "encyclopedia/add.html", {"form":New_entry})
+        form =New_entry(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            util.save_entry(title,content)
+            return entry(request, title)
+    return render(request, "encyclopedia/add.html", {"form": form})
 
 
 
