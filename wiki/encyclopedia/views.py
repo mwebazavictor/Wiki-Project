@@ -19,7 +19,9 @@ def search(request):
 
 def new_entry(request):
     if request.method == "POST":
-        return True
+        title = request.POST['title']
+        content= request.POST['content']
+        
     return render(request, "encyclopedia/add.html", {"form":New_entry})
 
 
