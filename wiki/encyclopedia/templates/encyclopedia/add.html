@@ -3,10 +3,11 @@
     Create a new Page
 {% endblock %}
 {% block body %}
-<form>
+<form action="{% url 'add' %}" method="post">
+    {% csrf_token %}
     <p style="text-align: right;"><input type="submit" value="Save Entry"></p>
-    {{ form }}
+    {{ title }}
    <p><label for="entry_data">Using Markdown, Enter information about the entry here</label></p> 
-   <p> <textarea id="entry_data" name="new_entry_info"></textarea> </p>
+   <p> <textarea id="entry_data" name="content"></textarea> </p>
 </form>
 {% endblock %}
