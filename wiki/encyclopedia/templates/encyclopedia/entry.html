@@ -6,9 +6,9 @@
 {% endblock %}
 {% block body %}
     <p style="text-align: center;">
-        <a href="{% url 'edit' %}">
+        <a href="{% url 'edit' entry.title %}">
             Edit this entry
         </a>
     </p>
-    {{ entry }}
+    {{ entry|safe }}
 {% endblock %}

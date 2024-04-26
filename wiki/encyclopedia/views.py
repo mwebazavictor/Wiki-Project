@@ -1,5 +1,7 @@
+import markdown2
 from django import forms
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from . import util
 
@@ -15,7 +17,9 @@ def index(request):
         "entries": util.list_entries()
     })
 def entry(request, title):
-    return render(request, "encyclopedia/entry.html", {"title":title,"entry": util.get_entry(title),})
+    if util.get_entry(title) == None:
+        return HttpResponse("ENTRY DOES NOT EXIST")
+    return render(request, "encyclopedia/entry.html", {"title":title,"entry": markdown2.markdown(util.get_entry(title)),})
 
 def search(request):
     query = request.GET.get('q')
@@ -24,9 +28,8 @@ def search(request):
 def error_message(request, error):
     return render(request, "encyclopedia/error.html",{"error_message":error})
 
-def edit_page(request):
-    title = request.path
-    form = Edit_entry(initial={'content':util.get_entry(f"{title}")})
+def edit_page(request,title):
+    form = Edit_entry(initial={'content':util.get_entry(title)})
     return render(request, "encyclopedia/edit.html", {"form":form})
 
 def new_entry(request):
