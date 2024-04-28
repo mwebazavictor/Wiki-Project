@@ -1,1 +1,1 @@
-Closed footware
+Fully closed footwares
