@@ -3,7 +3,7 @@
     <form action="{% url 'edit' title=title %}" method="post"> 
         {% csrf_token %}
         <p style="text-align: right;"><input type="submit" value="Save Entry"></p>
-        <br><label for="{{  form.content.id_for_label }}"> Edit with Markup</label><br>
+        <br><label for="{{  form.content.id_for_label }}"> Edit with Markdown</label><br>
         {{ form.content }}
     </form>      
 {% endblock %}
