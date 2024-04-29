@@ -20,11 +20,10 @@ def index(request):
     })
 def entry(request, title):
     if util.get_entry(title) == None:
-        return HttpResponse("ENTRY DOES NOT EXIST")
+        return error_message(request, f"There is no entry with the title '{title}'")
     return render(request, "encyclopedia/entry.html", {"title":title,"entry": markdown2.markdown(util.get_entry(title)),})
 
 def search(request):
-    
     if request.method == 'GET':
         search = request.GET.get('q')
         results = []
@@ -33,7 +32,8 @@ def search(request):
                 return entry(request,  title)
             elif search in title:
                 results.append(title)
-    return render(request, "encyclopedia/search.html", {"results": results})        
+    return render(request, "encyclopedia/search.html", {"results": results, "search": search})  
+        
 
         
 
